@@ -7,10 +7,13 @@ fn main() {
     let mut wb    = Workbook::create("tmp/b.xlsx");
     let mut sheet = wb.create_sheet("SheetName");
 
-    sheet.add_column(Column { width: 30.0 });
-    sheet.add_column(Column { width: 30.0 });
-    sheet.add_column(Column { width: 80.0 });
-    sheet.add_column(Column { width: 60.0 });
+    let columns = vec![30.0, 30.0, 40.0, 60.0]
+                      .into_iter()
+                      .map      (|x| Column {width: x});
+
+    for column in columns {
+        sheet.add_column(column);
+    }
 
     wb.write_sheet(
         &mut sheet,
