@@ -4,11 +4,11 @@ use excel::*;
 
 fn create_xlsx(records: Vec<Vec<&'static str>>) {
     let mut wb    = Workbook::create("tmp/b.xlsx");
-    let mut sheet = wb.create_sheet("SheetName");
+    let mut sheet = wb.create_sheet ("SheetName");
 
     let columns = records[0]
                       .iter()
-                      .map      (|_| Column {width: 30.0});
+                      .map (|_| Column {width: 30.0});
 
     for column in columns {
         sheet.add_column(column);
