@@ -1,0 +1,4 @@
+cargo build
+cargo run
+# rustc src/main.rs
+# ./src/main
