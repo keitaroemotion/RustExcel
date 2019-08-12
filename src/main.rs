@@ -1,7 +1,6 @@
 extern crate simple_excel_writer;
 use simple_excel_writer as excel;
 use std::io;
-
 use excel::*;
 
 fn main() {
