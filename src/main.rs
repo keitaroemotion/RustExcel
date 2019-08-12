@@ -1,15 +1,14 @@
 extern crate simple_excel_writer;
 use simple_excel_writer as excel;
-use std::io;
 use excel::*;
 
-fn main() {
+fn create_xlsx(records: Vec<Vec<&'static str>>) {
     let mut wb    = Workbook::create("tmp/b.xlsx");
     let mut sheet = wb.create_sheet("SheetName");
 
-    let columns = vec![30.0, 30.0, 40.0, 60.0]
-                      .into_iter()
-                      .map      (|x| Column {width: x});
+    let columns = records[0]
+                      .iter()
+                      .map      (|_| Column {width: 30.0});
 
     for column in columns {
         sheet.add_column(column);
@@ -19,14 +18,26 @@ fn main() {
         &mut sheet,
         |sheet_writer| {
             let sw = sheet_writer;
-            sw.append_row(row!["Name", "Title", "Success", "XML Remark"])?;
-            sw.append_row(row!["Amy",  (),      true,      "AAA"       ])?;
-            sw.append_blank_rows(2);
-            sw.append_row(row!["Tony", blank!(30), "retired"           ])
+            sw.append_row(row!["Name", "Title", "Success", "Else"])?;
+            for record in records {
+                sw.append_row(
+                    row![
+                        record[0],
+                        record[1],
+                        record[2],
+                        record[3]
+                    ]
+                ).expect("adding row failed");
+            }
+            Ok(())
         }
     )
     .expect("write excel error!");
 
     wb.close().expect("close excel error!");
+}
+
+fn main() {
+    create_xlsx(vec![vec!["1","1","1","1"]]);
     println!("Hello, world!");
 }
